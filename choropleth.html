@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <h1>Average Rating of Board Games Across the World</h1>
+	
+    <script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-tip.min.js">></script>
+    <script type="text/javascript" src="../lib/d3-legend.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-geo-projection.v2.min.js"></script>
+
+	
+	<style>
+		.d3-tip {
+                  padding: 6px;
+                  background: rgb(83, 93, 94);
+                  color: #fff;
+                }
+
+	</style>
+</head>
+
+
+<body>
+    <!-- Add heading for the visualization -->
+	
+	<!-- Create dropdown element here. Options should be added after reading in game file, they should not be created here.-->
+	<label class="text_drop">Select Board Game:</label>
+    <select id="selection_menu"></select>
+
+	<!-- append visualization svg to this div-->
+    <div id="choropleth"></div>
+
+
+
+    <script src="choropleth2.js"></script>
+
+
+</body>
+
+</html>

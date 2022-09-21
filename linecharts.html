@@ -1,0 +1,62 @@
+<!--https://datawanderings.com/2019/10/28/tutorial-making-a-line-chart-in-d3-js-v-5/-->
+
+<!--Following this example: https://bl.ocks.org/d3noob/daecba427fed7c2d912d8abbe9f3e784-->
+<!--https://bl.ocks.org/d3noob/daecba427fed7c2d912d8abbe9f3e784-->
+<!--https://stackoverflow.com/questions/47760566/d3-javascript-display-multiple-charts-on-the-same-page-->
+<!--https://bl.ocks.org/gordlea/27370d1eea8464b04538e6d8ced39e89-->
+<!--http://learnjsdata.com/strings.html-->
+
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+
+<!--CSS - Start -->
+<style> /* set the CSS */
+
+@media print {
+    div {
+        page-break-after: always;
+    }
+}
+
+.line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+
+</style>
+<!--CSS - END -->
+
+<!-- HTML - Start -->
+
+<body>
+
+<div id="Ratings" ></div>
+<div id="Ratings_Rankings"></div>
+<div id="Ratings_Rankings_SQRT"></div>
+<div id="Ratings_Rankings_LOG"></div>
+
+
+<!-- D3 - Start -->
+<!-- load the d3.js library -->
+<script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+<script src="linechart_1.js"></script>
+<script src="linechart_2.js"></script>
+<script src="linechart_3.js"></script>
+<script src="linechart_4.js"></script>
+
+
+
+</body>
+
+<!-- HTML - End -->
+
+
+<!--        svg1.selectAll(".dot")-->
+<!--            .data(label_data)-->
+<!--            .enter().append("circle") // Uses the enter().append() method-->
+<!--            .attr("class", "dot") // Assign a class for styling-->
+<!--            .attr("cx", function(d, i) { if (d.date. !==0) return x(d.date) })-->
+<!--            .attr("cy", function(d) { if (i%3 !==0) return y(d.number) })-->
+<!--            .attr("r", 5)-->
