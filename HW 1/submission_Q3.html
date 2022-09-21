@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<!-- cse6242 s21 -->
+
+<!-- run: http-server & -->
+
+<head>
+<title>Running Total of TMDb Movies by Year</title>
+  <style>
+  .bar { fill: steelblue;}
+  </style>
+</head>
+
+<body>
+
+  <script src="lib/d3/d3.min.js"></script>
+  <script src="lib/d3-dsv/d3-dsv.min.js"></script>
+  <script src="lib/d3-fetch/d3-fetch.min.js"></script>
+
+  <script>
+
+
+    // define the dimensions and margins for the graph
+    var margin = {top: 50, right: 40, bottom: 70, left:80},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    // define function to parse time in years format
+    var parseTime = d3.timeParse("%Y");
+
+    // create scales x & y for X and Y axis and set their ranges
+    var x = d3.scaleTime().range([0, width]);
+        y = d3.scaleLinear().range([height,0]);
+
+    // var xAxis = d3.axisBottom(x).scale;
+    // var yAxis = d3.axisLeft(y);
+
+    // append svg element to the body of the page
+    // set dimensions and position of the svg element
+    var svg = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.bottom + margin.top)
+               .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    // Get the data
+	var pathToCsv = "q3.csv";		// path to csv
+	
+    d3.dsv(",", pathToCsv, function (d) {
+      return {
+        year: d3.timeParse("%Y")(d.year),
+        running_total: +d.running_total
+        // format data attributes if required
+      }
+    }).then(function (data) {
+      console.log(data); // you should see the data in your browser's developer tools console 
+      
+      /* Create bar plot using data from csv */
+
+      // set the domains of X and Y scales based on data
+      //x.domain(data.map(function(d) {return d.year}));
+      x.domain(d3.extent(data, function(d) { return d.year; }))
+      y.domain([0, d3.max(data, function(d) {return d.running_total;})]);
+
+      // Add bars to svg - create new elements based on your data
+      svg.selectAll(".bar")
+         .data(data)
+         .enter().append("rect")
+         .attr("class", "bar")
+         .attr("x", function(d) { return x(d.year); })
+         .attr("width", width/data.length-1)
+         .attr("y", function(d) { return y(d.running_total); })
+         .attr("height", function(d) { return height - y(d.running_total); });
+
+      // Add the X Axis
+      svg.append("g")
+          .attr("id", "x_axis")
+         .attr("transform", "translate(0," + height + ")")
+         .call(d3.axisBottom(x).ticks(d3.timeYear.every(10)));
+
+      // Add the text label for X Axis
+      svg.append("text")
+         .attr("id", "x_axis_label")
+         .attr("transform",
+            "translate(" + (width/2) + " ," +
+                           (height + margin.top + 20) + ")")
+        .style("text-anchor", "middle")
+        .text("Year");
+
+      // Add the Y Axis
+      svg.append("g")
+         .attr("id", "y_axis")
+         .call(d3.axisLeft(y));
+
+      // Add the text label for Y axis
+      svg.append("text")
+      .attr("id", "y_axis_label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - margin.left)
+      .attr("x",0 - (height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Running Total");
+
+      // Add chart title
+      svg.append("text")
+        .attr("id", "title")
+        .attr("x", (width / 2))
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
+        .text("Running Total of TMDb Movies by Year");
+
+    // Adding GaTech ID
+    svg.append("text")
+        .attr("id", "credit")
+       .attr("text-anchor", "middle")
+       .attr("x", width)
+       .attr("y", height+60)
+       .style("font-size", "12px")
+       .text("icanlapan3");
+
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+
+  </script>
+
+</body>
+// https://stackoverflow.com/questions/45968495/how-to-use-rangeround-in-scaletime-in-d3-v4
